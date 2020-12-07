@@ -4,19 +4,31 @@ import { useHistory } from 'react-router-dom';
 import { Form, FormGroup } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { useState } from 'react';
+import api from '../../services/api';
 require('typeface-quicksand');
 
 function Cadastro() {
   const history = useHistory();
-  const [nome, setNome] = useState();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [numero, setNumero] = useState('');
+  const [book, setBook] = useState('');
+  const [cep, setCep] = useState('');
+  const [endereco, setEndereco] = useState('');
+
   function Home() {
-    alert('Bem vindo ' + nome);
+    alert('Bem vindo ' + name);
     history.push('Home');
+  }
+
+  async function handleRegister() {
+    const data = { name, email, senha, numero, book, cep, endereco };
   }
   return (
     <div className="Cadastro">
       <div className="button">
-        <Button className="butao" variant="danger" onClick={Home}>
+        <Button className="butao" variant="danger" onClick={handleRegister}>
           Cadastrar!{' '}
         </Button>
       </div>
@@ -39,7 +51,8 @@ function Cadastro() {
                         plaintext
                         size="sm"
                         placeholder="Seu nome"
-                        onChange={e => setNome(e.target.value)}
+                        value={name}
+                        onChange={e => setName(e.target.value)}
                       />
                     </Form.Group>
 
@@ -49,6 +62,8 @@ function Cadastro() {
                         plaintext
                         size="sm"
                         placeholder="name@example.com.br"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
                       />
                     </Form.Group>
 
@@ -59,6 +74,8 @@ function Cadastro() {
                         plaintext
                         size="sm"
                         placeholder="Senha"
+                        value={senha}
+                        onChange={e => setSenha(e.target.value)}
                       />
                     </Form.Group>
 
@@ -81,6 +98,8 @@ function Cadastro() {
                         plaintext
                         size="sm"
                         placeholder="31992404607"
+                        value={numero}
+                        onChange={e => setNumero(e.target.value)}
                       />
                     </Form.Group>
 
@@ -90,6 +109,8 @@ function Cadastro() {
                         plaintext
                         size="sm"
                         placeholder="A garota no trem"
+                        value={book}
+                        onChange={e => setBook(e.target.value)}
                       />
                     </Form.Group>
 
@@ -99,6 +120,8 @@ function Cadastro() {
                         plaintext
                         size="sm"
                         placeholder="00000-000"
+                        value={cep}
+                        onChange={e => setCep(e.target.value)}
                       />
                     </Form.Group>
 
@@ -108,6 +131,8 @@ function Cadastro() {
                         plaintext
                         size="sm"
                         placeholder="Rua das flores, 100"
+                        value={endereco}
+                        onChange={e => setEndereco(e.target.value)}
                       />
                     </Form.Group>
                   </Form>
