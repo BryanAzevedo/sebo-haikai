@@ -7,32 +7,26 @@ import { app } from '../../../base.js';
 function Upload() {
   const [photo, setPhoto] = useState({ file: null });
 
-  function handleChange(event) {
-    setPhoto({
-      file: URL.createObjectURL(event.target.files[0]),
-    });
-  }
-
-  const handleUpload = e => {
+  const handleUpload = async e => {
     const file = e.target.files[0];
     const storageRef = app.storage().ref();
     const fileRef = storageRef.child(file.name);
-    fileRef.put(file).then(() => {
-      console.log('Uploaded a file');
+    setPhoto({
+      file: URL.createObjectURL(file),
     });
+    await fileRef.put(file);
+    const fileURL = await fileRef.getDownloadURL();
+    window.alert(fileURL);
   };
 
   return (
     <div>
       <FormGroup>
         <FormLabel id="form1" htmlFor="upload">
-          <FormFileInput
-            id="upload"
-            type="file"
-            onChange={(handleChange, handleUpload)}
-          />
-          Mande seu livro
+          <FormFileInput id="upload" type="file" onChange={handleUpload} />
+          <strong>Clique para adicionar uma imagem</strong>
         </FormLabel>
+
         <br />
         <img className="img" src={photo.file} />
       </FormGroup>

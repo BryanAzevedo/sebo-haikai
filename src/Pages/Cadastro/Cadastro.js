@@ -3,6 +3,7 @@ import './cadastro.css';
 import { useHistory } from 'react-router-dom';
 import { Form, FormGroup } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
+import alertify from 'alertifyjs';
 import { useState } from 'react';
 import api from '../../services/api';
 require('typeface-quicksand');
@@ -12,24 +13,39 @@ function Cadastro() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [numero, setNumero] = useState('');
+  const [telefone, setTelefone] = useState('');
   const [book, setBook] = useState('');
   const [cep, setCep] = useState('');
   const [endereco, setEndereco] = useState('');
 
   function Home() {
-    alert('Bem vindo ' + name);
     history.push('Home');
   }
 
   async function handleRegister() {
-    const data = { name, email, senha, numero, book, cep, endereco };
+    const data = { name, email, senha, telefone, book, cep, endereco };
+
+    try {
+      const response = await api.post('users', data);
+      alert(
+        `Yeah! Você foi cadastrado com sucesso, seja bem vindo ao nosso sebo!`,
+      );
+      Home();
+    } catch (err) {
+      alertify.error('Teve um erro no cadastro, tente novamente.');
+    }
   }
+
   return (
     <div className="Cadastro">
       <div className="button">
-        <Button className="butao" variant="danger" onClick={handleRegister}>
-          Cadastrar!{' '}
+        <Button
+          className="butao"
+          type="submit"
+          variant="danger"
+          onClick={handleRegister}
+        >
+          Cadastrar!
         </Button>
       </div>
       <div className="background">
@@ -44,7 +60,7 @@ function Cadastro() {
               <div className="containbook">
                 <img className="livrao" src="/images/LivroFinal2Cadastro.jpg" />
                 <div className="dados1aux">
-                  <Form className="dados1">
+                  <Form className="dados1" onSubmit={handleRegister}>
                     <Form.Group controlId="nome">
                       <Form.Label>Nome</Form.Label>
                       <Form.Control
@@ -98,8 +114,8 @@ function Cadastro() {
                         plaintext
                         size="sm"
                         placeholder="31992404607"
-                        value={numero}
-                        onChange={e => setNumero(e.target.value)}
+                        value={telefone}
+                        onChange={e => setTelefone(e.target.value)}
                       />
                     </Form.Group>
 
