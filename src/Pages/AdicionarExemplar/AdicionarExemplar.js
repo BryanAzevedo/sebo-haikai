@@ -8,18 +8,26 @@ import Upload from '../Components/UploadPhoto/Upload';
 import { Comment } from '../Components/Comments/Comments.js';
 import SimpleRating from '../Components/Rating/Rating';
 import CustomizedRatings from '../Components/Rating/Rating';
+import api from '../../services/api';
 require('typeface-quicksand');
 
 function AdicionarExemplar() {
   const history = useHistory();
   function Home() {
     alert('Exemplar cadastrado com sucesso!');
-    history.push('Home');
   }
 
   const [Nome, setNome] = useState();
   const [Autor, setAutor] = useState();
   const [Resumo, setResumo] = useState();
+
+  async function handleExemplar(e) {
+    try {
+      Home();
+    } catch (err) {
+      alert('Erro.Tente novamente.Você consegue!:)');
+    }
+  }
 
   return (
     <div className="AdicionarEx">
@@ -82,7 +90,7 @@ function AdicionarExemplar() {
                         </div>
                       </td>
                       <td>
-                        <Button variant="dark" onClick={Home}>
+                        <Button variant="dark" onClick={handleExemplar}>
                           Adicionar exemplar!
                         </Button>
                       </td>

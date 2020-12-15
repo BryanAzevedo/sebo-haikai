@@ -4,8 +4,17 @@ import { Button, FormLabel, FormGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import FormFileInput from 'react-bootstrap/esm/FormFileInput';
 import { app } from '../../../base.js';
-function Upload() {
+import { useHistory } from 'react-router-dom';
+import api from '../../../services/api';
+
+function Upload(props) {
   const [photo, setPhoto] = useState({ file: null });
+  const history = useHistory();
+
+  const name = props.nome;
+  const autor = props.autor;
+  const resumo = props.resumo;
+  const [fileUrl, setFileUrl] = useState(null);
 
   const handleUpload = async e => {
     const file = e.target.files[0];
@@ -15,8 +24,15 @@ function Upload() {
       file: URL.createObjectURL(file),
     });
     await fileRef.put(file);
-    const fileURL = await fileRef.getDownloadURL();
-    window.alert(fileURL);
+    setFileUrl(fileRef.getDownloadURL());
+    const foto = fileUrl;
+    window.alert(foto);
+    try {
+      const response = await api.post('books', { name, autor, resumo, foto });
+      console.log('Adiconado');
+    } catch (err) {
+      console.log('Erro');
+    }
   };
 
   return (
