@@ -14,7 +14,6 @@ function Upload(props) {
   const name = props.nome;
   const autor = props.autor;
   const resumo = props.resumo;
-  const [fileUrl, setFileUrl] = useState(null);
 
   const handleUpload = async e => {
     const file = e.target.files[0];
@@ -24,11 +23,15 @@ function Upload(props) {
       file: URL.createObjectURL(file),
     });
     await fileRef.put(file);
-    setFileUrl(fileRef.getDownloadURL());
-    const foto = fileUrl;
-    window.alert(foto);
+    await fileRef.put(file);
+    const foto = await fileRef.getDownloadURL();
     try {
-      const response = await api.post('books', { name, autor, resumo, foto });
+      const response = await api.post('books', {
+        name,
+        autor,
+        resumo,
+        foto,
+      });
       console.log('Adiconado');
     } catch (err) {
       console.log('Erro');
